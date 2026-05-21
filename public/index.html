@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>今日 · 待办</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600&family=Noto+Serif+SC:wght@200;300;400;500;600;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Sky gradient background canvas -->
+  <div id="sky-bg"></div>
+
+  <!-- Floating particles -->
+  <div id="particles"></div>
+
+  <!-- Main content -->
+  <div id="main-container">
+    <!-- Date display at top -->
+    <header id="date-header">
+      <div id="date-text"></div>
+      <div id="time-text"></div>
+    </header>
+
+    <!-- Center: Todo list -->
+    <main id="todo-area">
+      <div id="todo-card">
+        <div id="todo-header">
+          <h2>今日事项</h2>
+          <button id="edit-btn" title="编辑">✎</button>
+        </div>
+        <ul id="todo-list"></ul>
+        <div id="todo-empty" style="display:none;">暂无事项，点击 ✎ 添加</div>
+      </div>
+    </main>
+
+    <!-- Right side: 24h timeline -->
+    <aside id="timeline">
+      <div id="timeline-track">
+        <div id="timeline-elapsed"></div>
+        <div id="timeline-now-dot"></div>
+        <div id="timeline-ticks"></div>
+      </div>
+      <div id="timeline-labels"></div>
+    </aside>
+
+    <!-- Bottom right: Analog clock -->
+    <div id="clock-container">
+      <canvas id="clock-canvas" width="200" height="200"></canvas>
+    </div>
+  </div>
+
+  <!-- Edit modal -->
+  <div id="edit-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>编辑今日事项</h3>
+        <button id="modal-close" class="modal-close-btn">&times;</button>
+      </div>
+      <textarea id="edit-textarea" spellcheck="false" placeholder="- [ ] 09:00 待办事项"></textarea>
+      <div class="modal-footer">
+        <button id="modal-cancel" class="btn btn-secondary">取消</button>
+        <button id="modal-save" class="btn btn-primary">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen hint -->
+  <div id="fullscreen-hint" style="display:none;">
+    按 ESC 退出全屏
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

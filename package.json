@@ -1,0 +1,12 @@
+{
+  "name": "today-todo",
+  "version": "1.0.0",
+  "description": "Daily screensaver with todo list, time animation, and sky gradient",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
