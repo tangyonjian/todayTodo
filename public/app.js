@@ -8,6 +8,7 @@
 
   // ===== State =====
   let currentDateStr = '';
+  let currentDisplayDate = new Date();  // The date currently displayed (may differ from today)
   let todosData = { date: '', items: [], raw: '' };
 
   // ===== DOM Elements =====
@@ -16,6 +17,7 @@
   const timeText = document.getElementById('time-text');
   const todoList = document.getElementById('todo-list');
   const todoEmpty = document.getElementById('todo-empty');
+  const todoHeader = document.getElementById('todo-header');
   const editBtn = document.getElementById('edit-btn');
   const editModal = document.getElementById('edit-modal');
   const editTextarea = document.getElementById('edit-textarea');
@@ -23,6 +25,9 @@
   const modalCancel = document.getElementById('modal-cancel');
   const modalSave = document.getElementById('modal-save');
   const fullscreenHint = document.getElementById('fullscreen-hint');
+  const navPrev = document.getElementById('nav-prev');
+  const navToday = document.getElementById('nav-today');
+  const navNext = document.getElementById('nav-next');
   const timelineElapsed = document.getElementById('timeline-elapsed');
   const timelineNowDot = document.getElementById('timeline-now-dot');
   const timelineLabels = document.getElementById('timeline-labels');
@@ -214,8 +219,58 @@
    */
   function updateDateTime() {
     const now = new Date();
-    dateText.textContent = formatDateDisplay(now);
+    dateText.textContent = formatDateDisplay(currentDisplayDate);
     timeText.textContent = formatTimeDisplay(now);
+  }
+
+  /**
+   * Convert a Date to YYYY-MM-DD string.
+   * @param {Date} date
+   * @returns {string}
+   */
+  function dateToStr(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
+  /**
+   * Navigate to a different date and refresh the todo list.
+   * @param {number} offsetDays - Days to add (negative = previous, positive = next)
+   */
+  function navigateDate(offsetDays) {
+    currentDisplayDate.setDate(currentDisplayDate.getDate() + offsetDays);
+    currentDateStr = dateToStr(currentDisplayDate);
+    updateDateTime();
+    updateTodoHeader();
+    fetchTodos();
+  }
+
+  /**
+   * Jump to today.
+   */
+  function goToToday() {
+    currentDisplayDate = new Date();
+    currentDateStr = dateToStr(currentDisplayDate);
+    updateDateTime();
+    updateTodoHeader();
+    fetchTodos();
+  }
+
+  /**
+   * Update the todo card header to show the current display date.
+   */
+  function updateTodoHeader() {
+    const h2 = todoHeader.querySelector('h2');
+    const today = new Date();
+    if (dateToStr(currentDisplayDate) === dateToStr(today)) {
+      h2.textContent = '今日事项';
+    } else {
+      const m = currentDisplayDate.getMonth() + 1;
+      const d = currentDisplayDate.getDate();
+      h2.textContent = `${m}月${d}日 事项`;
+    }
   }
 
   // ===== 24-Hour Timeline =====
@@ -566,6 +621,11 @@
   // ===== Event Listeners =====
 
   function setupEventListeners() {
+    // Date navigation
+    navPrev.addEventListener('click', function () { navigateDate(-1); });
+    navNext.addEventListener('click', function () { navigateDate(1); });
+    navToday.addEventListener('click', goToToday);
+
     // Edit button
     editBtn.addEventListener('click', openEditModal);
 
@@ -631,6 +691,7 @@
 
     // Initial renders
     updateDateTime();
+    updateTodoHeader();
     updateSkyBackground();
     updateTimeline();
     drawClock();
