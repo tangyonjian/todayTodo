@@ -6,16 +6,17 @@
 }
 
 :root {
-  --font-serif: 'Noto Serif SC', 'ZCOOL XiaoWei', 'STSong', 'SimSun', serif;
-  --font-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  --glass-bg: rgba(255, 255, 255, 0.08);
-  --glass-border: rgba(255, 255, 255, 0.15);
-  --glass-blur: 20px;
-  --text-primary: rgba(255, 255, 255, 0.95);
-  --text-secondary: rgba(255, 255, 255, 0.6);
-  --text-muted: rgba(255, 255, 255, 0.35);
-  --accent: #7eb8da;
-  --accent-glow: rgba(126, 184, 218, 0.5);
+  --font-serif: 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', sans-serif;
+  --font-sans: 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', sans-serif;
+  --glass-bg: rgba(0, 0, 0, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-blur: 24px;
+  --text-primary: rgba(255, 255, 255, 0.96);
+  --text-secondary: rgba(255, 255, 255, 0.65);
+  --text-muted: rgba(255, 255, 255, 0.4);
+  --text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+  --accent: #8ec8e8;
+  --accent-glow: rgba(142, 200, 232, 0.5);
   --completed-color: rgba(255, 255, 255, 0.3);
 }
 
@@ -29,14 +30,15 @@ html, body {
 }
 
 body.day-mode {
-  --glass-bg: rgba(0, 0, 0, 0.06);
-  --glass-border: rgba(0, 0, 0, 0.1);
-  --text-primary: rgba(30, 30, 50, 0.92);
-  --text-secondary: rgba(30, 30, 50, 0.55);
-  --text-muted: rgba(30, 30, 50, 0.3);
-  --accent: #2a6496;
-  --accent-glow: rgba(42, 100, 150, 0.4);
-  --completed-color: rgba(30, 30, 50, 0.25);
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --text-primary: rgba(20, 20, 40, 0.92);
+  --text-secondary: rgba(20, 20, 40, 0.55);
+  --text-muted: rgba(20, 20, 40, 0.32);
+  --text-shadow: 0 1px 6px rgba(255, 255, 255, 0.3);
+  --accent: #2563a0;
+  --accent-glow: rgba(37, 99, 160, 0.35);
+  --completed-color: rgba(20, 20, 40, 0.28);
 }
 
 /* ===== Sky Background ===== */
@@ -112,7 +114,7 @@ body.day-mode .particle {
   font-family: var(--font-serif);
   color: var(--text-primary);
   letter-spacing: 0.12em;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  text-shadow: var(--text-shadow);
   transition: color 2s ease;
 }
 
@@ -123,6 +125,7 @@ body.day-mode .particle {
   color: var(--text-secondary);
   margin-top: 6px;
   letter-spacing: 0.25em;
+  text-shadow: var(--text-shadow);
   transition: color 2s ease;
 }
 
@@ -145,8 +148,8 @@ body.day-mode .particle {
   border: 1px solid var(--glass-border);
   border-radius: 20px;
   padding: 28px 32px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  transition: background 2s ease, border-color 2s ease;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: background 2s ease, border-color 2s ease, box-shadow 2s ease;
 }
 
 #todo-header {
@@ -278,40 +281,40 @@ body.day-mode #todo-list li:hover {
 
 #timeline-track {
   position: relative;
-  width: 3px;
+  width: 2px;
   height: 100%;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 1.5px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 0;
   margin-left: 18px;
-  image-rendering: auto;
 }
 
 body.day-mode #timeline-track {
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.14);
 }
 
 /* Timeline tick marks */
 .timeline-tick {
   position: absolute;
   left: 0;
+  width: 8px;
   height: 1px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
   transform: translateY(-50%);
   pointer-events: none;
 }
 
 body.day-mode .timeline-tick {
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .timeline-tick.major {
   width: 14px;
-  height: 1.5px;
-  background: rgba(255, 255, 255, 0.35);
+  height: 2px;
+  background: rgba(255, 255, 255, 0.45);
 }
 
 body.day-mode .timeline-tick.major {
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.3);
 }
 
 #timeline-elapsed {
@@ -319,8 +322,8 @@ body.day-mode .timeline-tick.major {
   top: 0;
   left: 0;
   width: 100%;
-  border-radius: 1.5px;
-  background: linear-gradient(to bottom, var(--accent), rgba(126, 184, 218, 0.2));
+  border-radius: 0;
+  background: var(--accent);
   transition: height 1s linear;
 }
 
@@ -355,10 +358,11 @@ body.day-mode .timeline-tick.major {
 #timeline-labels {
   position: absolute;
   top: 40px;
-  left: 0;
+  left: -14px;
   height: calc(100% - 70px);
-  width: 40px;
+  width: 54px;
   pointer-events: none;
+  overflow: visible;
 }
 
 #timeline-ticks {
@@ -372,7 +376,7 @@ body.day-mode .timeline-tick.major {
 
 .timeline-label {
   position: absolute;
-  left: 0;
+  left: -30px;
   font-family: var(--font-sans);
   font-size: 0.65rem;
   font-weight: 400;

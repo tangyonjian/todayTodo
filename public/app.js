@@ -113,19 +113,32 @@
    * Colors are [r, g, b] arrays.
    */
   const skyKeyframes = [
-    { hour: 0,    top: [8, 10, 28],     bottom: [12, 15, 40] },
-    { hour: 4,    top: [8, 10, 28],     bottom: [12, 15, 40] },
-    { hour: 5,    top: [20, 20, 50],    bottom: [40, 30, 60] },
-    { hour: 6,    top: [60, 50, 80],    bottom: [200, 120, 100] },
-    { hour: 7,    top: [100, 150, 210], bottom: [230, 170, 130] },
-    { hour: 8,    top: [120, 180, 235], bottom: [180, 210, 240] },
-    { hour: 12,   top: [100, 170, 230], bottom: [160, 200, 240] },
-    { hour: 15,   top: [110, 170, 220], bottom: [200, 190, 180] },
-    { hour: 17,   top: [140, 130, 170], bottom: [220, 140, 90] },
-    { hour: 18,   top: [80, 60, 120],   bottom: [200, 100, 60] },
-    { hour: 19.5, top: [30, 25, 70],    bottom: [60, 40, 80] },
-    { hour: 20.5, top: [15, 15, 45],    bottom: [20, 20, 55] },
-    { hour: 24,   top: [8, 10, 28],     bottom: [12, 15, 40] }
+    // Deep night: 0:00 - 4:30
+    { hour: 0,    top: [5, 8, 25],      bottom: [10, 14, 38] },
+    { hour: 4.5,  top: [5, 8, 25],      bottom: [10, 14, 38] },
+    // Pre-dawn: 4:30 - 5:30 — faint blue glow on horizon
+    { hour: 5.5,  top: [15, 18, 55],    bottom: [25, 22, 70] },
+    // Sunrise: 5:30 - 6:30 — golden orange horizon, blue sky emerging
+    { hour: 6,    top: [55, 85, 150],   bottom: [225, 150, 85] },
+    { hour: 6.5,  top: [80, 140, 200],  bottom: [235, 185, 120] },
+    // Morning: 7:00 - 10:00 — bright blue sky, warm light
+    { hour: 7.5,  top: [100, 170, 225], bottom: [210, 200, 170] },
+    { hour: 9.5,  top: [115, 190, 238], bottom: [185, 218, 245] },
+    // Midday: 10:00 - 15:00 — crisp blue zenith
+    { hour: 12,   top: [105, 185, 238], bottom: [175, 210, 245] },
+    { hour: 15,   top: [108, 183, 235], bottom: [180, 210, 242] },
+    // Late afternoon: 15:00 - 17:00 — slightly warm shift
+    { hour: 16.5, top: [115, 175, 225], bottom: [200, 195, 210] },
+    // Golden hour: 17:00 - 18:00 — warm golden light
+    { hour: 17.5, top: [140, 150, 190], bottom: [230, 165, 110] },
+    // Sunset: 18:00 - 19:00 — intense orange to pink-purple sky
+    { hour: 18.3, top: [120, 100, 150], bottom: [235, 130, 70] },
+    { hour: 19,   top: [60, 45, 100],   bottom: [170, 85, 55] },
+    // Twilight: 19:00 - 20:30 — purple fading to dark blue
+    { hour: 20,   top: [22, 18, 65],    bottom: [50, 35, 85] },
+    { hour: 22,   top: [8, 10, 38],     bottom: [15, 18, 48] },
+    // Loop back to deep night
+    { hour: 24,   top: [5, 8, 25],      bottom: [10, 14, 38] }
   ];
 
   /**
@@ -150,9 +163,8 @@
     const topColor = lerpColor(prev.top, next.top, t);
     const bottomColor = lerpColor(prev.bottom, next.bottom, t);
 
-    // Determine if it's daytime based on brightness
-    const avgBrightness = (topColor[0] + topColor[1] + topColor[2]) / 3;
-    const isDaytime = avgBrightness > 80;
+    // Day mode: 6:00 - 18:00 (clear day hours for text readability)
+    const isDaytime = hours >= 6 && hours < 18;
 
     return { topColor, bottomColor, isDaytime };
   }
@@ -229,7 +241,7 @@
         const label = document.createElement('div');
         label.className = 'timeline-label';
         label.dataset.hour = h;
-        label.textContent = String(h).padStart(2, '0');
+        label.textContent = String(h).padStart(2, '0') + ':00';
         label.style.top = pct + '%';
         timelineLabels.appendChild(label);
       }
@@ -323,7 +335,7 @@
     }
 
     // Numbers
-    clockCtx.font = '300 12px "Noto Sans SC", "PingFang SC", sans-serif';
+    clockCtx.font = '300 12px "Microsoft YaHei", "PingFang SC", sans-serif';
     clockCtx.fillStyle = numberColor;
     clockCtx.textAlign = 'center';
     clockCtx.textBaseline = 'middle';
